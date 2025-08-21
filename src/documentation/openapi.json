@@ -1,0 +1,1012 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Application",
+    "version": "0.0.1",
+    "description": "To use the API you must first sign-in using the `POST /auth/sign-in` endpoint and collect the **Bearer token** from the response.\n"
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/template/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Template"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["data"],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/TemplateInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Template"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      }
+    },
+    "/template": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter[name]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter[createdAtRange][]",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "explode": true
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "number",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "example": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "schema": {
+              "type": "string",
+              "example": "createdAt_DESC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Template"
+                      }
+                    },
+                    "count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["data"],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/TemplateInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Template"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids[]",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      }
+    },
+    "/template/autocomplete": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      }
+    },
+    "/template/import": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["data", "importHash"],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/TemplateInput"
+                  },
+                  "importHash": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Template"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      }
+    },
+    "/template/access": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Template"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids[]",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Too Many Requests."
+          }
+        }
+      }
+    },
+    "/team": {
+      "post": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["data"],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/TeamInput"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      },
+      "/team/{id}": {
+  "put": {
+    "security": [{ "bearerAuth": [] }],
+    "tags": ["Team"],
+    "parameters": [
+      {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": { "type": "string" }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TeamInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Team" }
+          }
+        }
+      },
+      "401": { "description": "Unauthorized" },
+      "429": { "description": "Too Many Requests." }
+    }
+  }
+},
+
+      "delete": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids[]",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "explode": true
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      },
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter[name]",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "filter[teamAdmin]",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "filter[owner]",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": { "type": "number", "example": 0 }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "number", "example": 10 }
+          },
+          {
+            "in": "query",
+            "name": "orderBy",
+            "schema": {
+              "type": "string",
+              "example": "createdAt_DESC"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rows": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Team"
+                      }
+                    },
+                    "count": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    "/team/import": {
+      "post": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["data", "importHash"],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/TeamInput"
+                  },
+                  "importHash": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    "/team/autocomplete": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "number", "example": 10 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "label": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    "/team/count": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter[name]",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "filter[teamAdmin]",
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "filter[owner]",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    "/team/{id}": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    "/team/{id}/member": {
+      "post": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+  "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "The ID of the team to add members to",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+      
+         "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["ids"],
+            "properties": {
+              "ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "64d88f93c5e4bc1a88e33f22",
+                  "64d88f93c5e4bc1a88e33f23"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "type": "boolean" }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      },
+      "delete": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+         "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "description": "The ID of the team",
+        "required": true,
+        "schema": { "type": "string" }
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["ids"],
+            "properties": {
+              "ids": {
+                "type": "array",
+                "items": { "type": "string" },
+                "example": [
+                  "64d88f93c5e4bc1a88e33f22",
+                  "64d88f93c5e4bc1a88e33f23"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    },
+    " /team/{teamId}/member/{memberId}/invitation": {
+      "patch": {
+        "security": [{ "bearerAuth": [] }],
+        "tags": ["Team"],
+        "parameters": [
+      {
+        "name": "teamId",
+        "in": "path",
+        "description": "The ID of the team",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },{
+         "name": "memberId",
+        "in": "path",
+        "description": "The ID of the member",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "type": "boolean" }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Too Many Requests." }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Template": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GenericEntity"
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "hasAccess": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TemplateInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GenericEntity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GenericModel"
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "importHash": {
+            "type": "string"
+          }
+        }
+      },
+      "GenericModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "updatedBy": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Team": {
+        "allOf": [
+          { "$ref": "#/components/schemas/GenericEntity" }
+        ],
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "teamAdmin": { "type": "string" },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "member": { "type": "string" },
+                "joined_on": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "invited_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "approved",
+                    "rejected"
+                  ]
+                }
+              }
+            }
+          },
+          "owner": { "type": "string" }
+        }
+      },
+      "TeamInput": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "teamAdmin": { "type": "string" },
+          "members": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "owner": { "type": "string" }
+        }
+      }
+    }
+  }
+}

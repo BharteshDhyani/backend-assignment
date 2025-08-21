@@ -1,0 +1,26 @@
+
+import ApiResponseHandler from '../apiResponseHandler';
+import TeamService from '../../services/teamService';
+import { PlatformRequest, RequestWithId } from '../common';
+import { Response } from 'express';
+import CustomError from '../../errors/CustomError';
+import { getServiceOptions } from '../utilities';
+
+export default async (req: PlatformRequest, res: Response) => {
+  try {
+    const payload = await new TeamService(
+      getServiceOptions(req),
+    ).addMembers(
+      (req.params as unknown as RequestWithId).id,
+      req.body.ids,
+    );
+
+    await ApiResponseHandler.success(req, res, payload);
+  } catch (error) {
+    await ApiResponseHandler.error(
+      req,
+      res,
+      error as CustomError,
+    );
+  }
+};
